@@ -1,39 +1,49 @@
 package com.polytech.tp;
 
 public class Cours implements ICours {
-    private String matiere;
-    private String enseignant;
-    private String salle;
-    private String date;
-    private String heureDebut;
-    private boolean estOptionnel;
-    private String niveau;
-    private boolean necessiteProjecteur;
+    private final String matiere;
+    private final String enseignant;
+    private final String salle;
+    private final String date;
+    private final String heure;
+    private final boolean optionnel;
+    private final String materielRequis;
 
-    
+    // Constructor with 8 parameters (for tests and direct instantiation)
     public Cours(String matiere, String enseignant, String salle, String date, 
-                 String heureDebut, boolean estOptionnel, String niveau, boolean necessiteProjecteur) {
+                 String heure, boolean optionnel, String materielRequis, boolean unused) {
         this.matiere = matiere;
         this.enseignant = enseignant;
         this.salle = salle;
         this.date = date;
-        this.heureDebut = heureDebut;
-        this.estOptionnel = estOptionnel;
-        this.niveau = niveau;
-        this.necessiteProjecteur = necessiteProjecteur;
+        this.heure = heure;
+        this.optionnel = optionnel;
+        this.materielRequis = materielRequis;
     }
+
+    @Override
+    public String getMatiere() { return matiere; }
+    @Override
+    public String getEnseignant() { return enseignant; }
+    @Override
+    public String getSalle() { return salle; }
+    @Override
+    public String getDate() { return date; }
+    @Override
+    public String getHeure() { return heure; }
+    @Override
+    public boolean isOptionnel() { return optionnel; }
+    @Override
+    public String getMaterielRequis() { return materielRequis; }
 
     @Override
     public String getDescription() {
-        return "Cours de " + matiere + " avec " + enseignant + " (" + salle + ")";
+        return matiere;
     }
 
     @Override
-    public double getDuree() {
-        return 1.5; 
+    public String toString() {
+        return String.format("Cours{matiere='%s', enseignant='%s', salle='%s', date='%s', heure='%s', optionnel=%b, materiel='%s'}",
+                matiere, enseignant, salle, date, heure, optionnel, materielRequis);
     }
-    
-    
-    public String getMatiere() { return matiere; }
-    public String getEnseignant() { return enseignant; }
 }

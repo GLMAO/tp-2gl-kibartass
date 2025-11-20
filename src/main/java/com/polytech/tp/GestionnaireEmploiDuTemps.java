@@ -3,23 +3,57 @@ package com.polytech.tp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GestionnaireEmploiDuTemps {
-    private List<ICours> listeCours = new ArrayList<>();
+public class GestionnaireEmploiDuTemps implements Subject {
+    private List<Observer> observers = new ArrayList<>();
+    private List<Cours> cours = new ArrayList<>();
+    private String changement;
 
-    public void ajouterCours(ICours cours) {
-        this.listeCours.add(cours);
-        System.out.println("Nouveau cours ajouté : " + cours.getDescription());
-        // TODO: C'est ici qu'il faudrait notifier les étudiants (Observer pattern)
+    @Override
+    public void attach(Observer observer) {
+        observers.add(observer);
     }
 
-    public void modifierCours(ICours cours, String message) {
-        // Logique de modification...
-        System.out.println("Cours modifié : " + message);
-        // TODO: Notifier les observateurs ici aussi
+    @Override
+    public void detach(Observer observer) {
+        observers.remove(observer);
     }
 
-    public void setChangement(String string) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setChangement'");
+    @Override
+    public void notifyObservers(String message) {
+        for (Observer observer : observers) {
+            observer.update(message);
+        }
     }
+
+    public void ajouterCours(Cours c) {
+        this.cours.add(c);
+        notifyObservers("Nouveau cours ajouté: " + c.getMatiere());
+    }
+
+    public void modifierCours(int index, Cours nouveauCours) {
+        if (index >= 0 && index < cours.size()) {
+            String ancienne = cours.get(index).getMatiere();
+            cours.set(index, nouveauCours);
+            notifyObservers("Cours modifié: " + ancienne + " -> " + nouveauCours.getMatiere());
+        }
+    }
+
+    public void annulerCours(int index) {
+        if (index >= 0 && index < cours.size()) {
+            String matiere = cours.get(index).getMatiere();
+            cours.remove(index);
+            notifyObservers("Cours annulé: " + matiere);
+        }
+    }
+
+    public void setChangement(String changement) {
+        this.changement = changement;
+        notifyObservers(changement);
+    }
+
+    public String getChangement() {
+        return changement;
+    }
+
+    public List<Cours> getCours() { return cours; }
 }
