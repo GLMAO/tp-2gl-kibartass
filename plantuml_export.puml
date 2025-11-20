@@ -1,0 +1,92 @@
+@startuml
+interface ICours {
+  +getDescription(): String
+  +getDuree(): double
+}
+
+class Cours {
+  -matiere: String
+  -enseignant: String
+  -salle: String
+  -date: String
+  -heureDebut: String
+  -estOptionnel: boolean
+  -niveau: String
+  -necessiteProjecteur: boolean
+  +getDescription(): String
+  +getDuree(): double
+  +builder(): CoursBuilder
+}
+
+class CoursBuilder {
+  -matiere: String
+  -enseignant: String
+  -salle: String
+  -date: String
+  -heureDebut: String
+  -estOptionnel: boolean
+  -niveau: String
+  -necessiteProjecteur: boolean
+  +setMatiere(): CoursBuilder
+  +setEnseignant(): CoursBuilder
+  +setSalle(): CoursBuilder
+  +setDate(): CoursBuilder
+  +setHeureDebut(): CoursBuilder
+  +setEstOptionnel(): CoursBuilder
+  +setNiveau(): CoursBuilder
+  +setNecessiteProjecteur(): CoursBuilder
+  +build(): Cours
+}
+
+abstract class CoursDecorator {
+  #coursDecorated: ICours
+  +getDescription(): String
+  +getDuree(): double
+}
+
+class CoursEnLigne
+
+
+
+interface Subject {
+  +attach(Observer): void
+  +detach(Observer): void
+  +notifyObservers(String): void
+}
+
+interface Observer {
+  +update(String): void
+}
+
+class GestionnaireEmploiDuTemps {
+  -listeCours: List<ICours>
+  -observateurs: List<Observer>
+  +attach(Observer): void
+  +detach(Observer): void
+  +notifyObservers(String): void
+  +ajouterCours(ICours): void
+  +modifierCours(ICours, String): void
+  +setChangement(String): void
+}
+
+class Etudiant {
+  -nom: String
+  +update(String): void
+}
+
+class Responsable {
+  -nom: String
+  +update(String): void
+}
+
+' Relations
+Cours ..|> ICours
+CoursDecorator ..|> ICours
+CoursEnLigne --|> CoursDecorator
+GestionnaireEmploiDuTemps ..|> Subject
+Etudiant ..|> Observer
+Responsable ..|> Observer
+GestionnaireEmploiDuTemps --> Observer
+GestionnaireEmploiDuTemps --> ICours
+CoursBuilder --> Cours
+@enduml
